@@ -1,0 +1,9 @@
+{% extends 'store/base.html' %}
+{% block title %}Заказ оформлен{% endblock %}
+{% block content %}
+<h1>Спасибо за покупку!</h1>
+<p>Номер вашего заказа: {{ sale.id }}</p>
+<p>Сумма: {{ sale.total_amount }} руб.</p>
+<p>Дата: {{ sale.sale_date }}</p>
+<a href="{% url 'store:product_list' %}">На главную</a>
+{% endblock %}

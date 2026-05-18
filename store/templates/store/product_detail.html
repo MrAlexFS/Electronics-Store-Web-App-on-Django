@@ -9,12 +9,14 @@
 <p>Гарантия: {{ product.warranty_months }} мес.</p>
 <p>Описание: {{ product.description|default:"Нет описания" }}</p>
 <h3>Доступные экземпляры</h3>
+
 <ul>
-    {% for copy in available_copies %}
-        <li>Серийный номер: {{ copy.serial_number }}</li>
-    {% empty %}
-        <li>Нет в наличии</li>
-    {% endfor %}
+{% for copy in available_copies %}
+    <li>
+        Серийный номер: {{ copy.serial_number }}
+        <a href="{% url 'store:cart_add' copy.id %}">В корзину</a>
+    </li>
+{% endfor %}
 </ul>
 <a href="{% url 'store:product_list' %}">Назад к каталогу</a>
 {% endblock %}
