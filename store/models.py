@@ -1,5 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
+
+class Customer(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
 
 class Brand(models.Model):
     name = models.CharField(max_length=100, unique=True)

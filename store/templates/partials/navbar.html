@@ -1,14 +1,20 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-    <div class="container">
-        <a class="navbar-brand" href="{% url 'store:product_list' %}">
-            <i class="fas fa-microchip me-2"></i>ElectroStore
-        </a>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'store:product_list' %}">Каталог</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<ul class="navbar-nav ms-auto">
+    {% if user.is_authenticated %}
+        <li class="nav-item">
+            <span class="navbar-text me-3">Привет, {{ user.username }}</span>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:profile' %}">Личный кабинет</a>  <!-- добавим позже -->
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:logout' %}">Выйти</a>
+        </li>
+    {% else %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:login' %}">Вход</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:register' %}">Регистрация</a>
+        </li>
+    {% endif %}
+</ul>
