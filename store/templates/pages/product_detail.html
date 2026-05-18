@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1>{{ product.name }}</h1>
+        <p class="lead">Бренд: {{ product.brand.name }}</p>
+        <p class="lead">Категория: {{ product.category.name }}</p>
+        <p><strong>Артикул:</strong> {{ product.sku }}</p>
+        <p><strong>Цена:</strong> {{ product.price }} ₽</p>
+        <p><strong>Гарантия:</strong> {{ product.warranty_months }} мес.</p>
+        <p><strong>Описание:</strong> {{ product.description|default:"Нет описания" }}</p>
+
+        <h4>Доступные экземпляры</h4>
+        <ul>
+            {% for copy in product.copies.all %}
+                {% if copy.status == 'in_stock' %}
+                    <li>Серийный номер: {{ copy.serial_number }}</li>
+                {% endif %}
+            {% empty %}
+                <li>Нет в наличии</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'store:product_list' %}" class="btn btn-secondary">← Вернуться к каталогу</a>
+    </div>
+</div>
+{% endblock %}

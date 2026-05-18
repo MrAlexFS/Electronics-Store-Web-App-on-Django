@@ -1,0 +1,11 @@
+<div class="card h-100 shadow-sm product-card">
+    <div class="card-body d-flex flex-column">
+        <h5 class="card-title">{{ product.name }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ product.brand.name }}</h6>
+        <p class="card-text small">{{ product.description|truncatechars:80|default:"Нет описания" }}</p>
+        <p class="card-text"><strong>{{ product.price }} ₽</strong></p>
+        <div class="mt-auto">
+            <a href="{% url 'store:product_detail' product.id %}" class="btn btn-outline-primary btn-sm">Подробнее</a>
+        </div>
+    </div>
+</div>

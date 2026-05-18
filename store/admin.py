@@ -11,17 +11,24 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
     search_fields = ('name',)
 
+class ProductCopyInline(admin.TabularInline):
+    model = ProductCopy
+    extra = 1
+    fields = ('serial_number', 'status')
+    readonly_fields = ('id',)
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('id', 'sku', 'name', 'brand', 'category', 'price', 'warranty_months')
     list_filter = ('brand', 'category')
-    search_fields = ('sku', 'name')
-
-@admin.register(ProductCopy)
-class ProductCopyAdmin(admin.ModelAdmin):
-    list_display = ('id', 'product', 'serial_number', 'status')
-    list_filter = ('status',)
-    search_fields = ('serial_number',)
+    search_fields = ('sku', 'name', 'brand__name')
+    ordering = ('name',)
+    inlines = [ProductCopyInline]
+    fieldsets = (
+        (None, {'fields': ('sku', 'name', 'brand', 'category')}),
+        ('Цены и гарантия', {'fields': ('price', 'warranty_months')}),
+        ('Описание', {'fields': ('description',)}),
+    )
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
