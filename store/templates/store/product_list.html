@@ -1,0 +1,17 @@
+{% extends 'store/base.html' %}
+{% block title %}Каталог товаров{% endblock %}
+{% block content %}
+<h1>Наши товары</h1>
+<div class="product-list">
+    {% for product in products %}
+    <div class="product-card">
+        <h3>{{ product.name }}</h3>
+        <p>Бренд: {{ product.brand.name }}</p>
+        <p>Цена: {{ product.price }} руб.</p>
+        <a href="{% url 'store:product_detail' product.id %}">Подробнее</a>
+    </div>
+    {% empty %}
+    <p>Нет товаров в каталоге.</p>
+    {% endfor %}
+</div>
+{% endblock %}

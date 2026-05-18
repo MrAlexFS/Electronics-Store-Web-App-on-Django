@@ -1,0 +1,20 @@
+{% extends 'store/base.html' %}
+{% block title %}{{ product.name }}{% endblock %}
+{% block content %}
+<h1>{{ product.name }}</h1>
+<p>Артикул: {{ product.sku }}</p>
+<p>Бренд: {{ product.brand.name }}</p>
+<p>Категория: {{ product.category.name }}</p>
+<p>Цена: {{ product.price }} руб.</p>
+<p>Гарантия: {{ product.warranty_months }} мес.</p>
+<p>Описание: {{ product.description|default:"Нет описания" }}</p>
+<h3>Доступные экземпляры</h3>
+<ul>
+    {% for copy in available_copies %}
+        <li>Серийный номер: {{ copy.serial_number }}</li>
+    {% empty %}
+        <li>Нет в наличии</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'store:product_list' %}">Назад к каталогу</a>
+{% endblock %}
