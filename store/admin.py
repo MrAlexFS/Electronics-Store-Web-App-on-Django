@@ -1,15 +1,25 @@
 from django.contrib import admin
+from django import models
+from image_uploader_widget.admin import ImageUploaderWidget
 from .models import Brand, Category, Product, ProductCopy, Customer, Sale, SoldItem, Return, Supplier, StockReceipt
 
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
+    list_display = ('id', 'name', 'slug')
     search_fields = ('name',)
+    prepopulated_fields = {'slug': ('name',)}  # для ручного ввода (резерв)
+    formfield_overrides = {
+        models.ImageField: {'widget': ImageUploaderWidget},
+    }
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
+    list_display = ('id', 'name', 'slug')
     search_fields = ('name',)
+    prepopulated_fields = {'slug': ('name',)}
+    formfield_overrides = {
+        models.ImageField: {'widget': ImageUploaderWidget},
+    }
 
 class ProductCopyInline(admin.TabularInline):
     model = ProductCopy
@@ -19,15 +29,19 @@ class ProductCopyInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'sku', 'name', 'brand', 'category', 'price', 'warranty_months')
+    list_display = ('id', 'sku', 'name', 'brand', 'category', 'price', 'warranty_months', 'slug')
     list_filter = ('brand', 'category')
     search_fields = ('sku', 'name', 'brand__name')
     ordering = ('name',)
     inlines = [ProductCopyInline]
+    prepopulated_fields = {'slug': ('name',)}
+    formfield_overrides = {
+        models.ImageField: {'widget': ImageUploaderWidget},
+    }
     fieldsets = (
-        (None, {'fields': ('sku', 'name', 'brand', 'category')}),
+        (None, {'fields': ('sku', 'name', 'brand', 'category', 'slug')}),
         ('Цены и гарантия', {'fields': ('price', 'warranty_months')}),
-        ('Описание', {'fields': ('description',)}),
+        ('Изображение и описание', {'fields': ('image', 'description')}),
     )
 
 @admin.register(Customer)
